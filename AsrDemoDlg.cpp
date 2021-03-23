@@ -64,6 +64,8 @@ BEGIN_MESSAGE_MAP(AsrDemoDlg, CDialog)
 	ON_CBN_SELCHANGE(IDC_DEVICES, OnSelDevices)
 	ON_CBN_SELCHANGE(IDC_FORMATS, &AsrDemoDlg::OnCbSelFormats)
 	ON_EN_CHANGE(IDC_FILENAME, &AsrDemoDlg::OnEnChangeFilename)
+	ON_EN_CHANGE(IDC_STATUS, &AsrDemoDlg::OnEnChangeStatus)
+	ON_BN_CLICKED(IDC_SEND_FILE, &AsrDemoDlg::OnBnClickedSendFile)
 END_MESSAGE_MAP()
 
 
@@ -564,4 +566,22 @@ void AsrDemoDlg::OnEnChangeFilename()
 	// 同时将 ENM_CHANGE 标志“或”运算到掩码中。
 
 	// TODO:  在此添加控件通知处理程序代码
+}
+
+
+void AsrDemoDlg::OnEnChangeStatus()
+{
+	// TODO:  如果该控件是 RICHEDIT 控件，它将不
+	// 发送此通知，除非重写 CDialog::OnInitDialog()
+	// 函数并调用 CRichEditCtrl().SetEventMask()，
+	// 同时将 ENM_CHANGE 标志“或”运算到掩码中。
+
+	// TODO:  在此添加控件通知处理程序代码
+}
+
+
+void AsrDemoDlg::OnBnClickedSendFile()
+{
+	// TODO: 在此添加控件通知处理程序代码
+	m_sendData->sendPcmData("D:\\work\\asr\\T0055G0002S0001.pcm");
 }

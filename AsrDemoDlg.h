@@ -71,4 +71,6 @@ private:
 public:
 	afx_msg void OnCbSelFormats();
 	afx_msg void OnEnChangeFilename();
+	afx_msg void OnEnChangeStatus();
+	afx_msg void OnBnClickedSendFile();
 };

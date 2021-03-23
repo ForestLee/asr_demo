@@ -8,6 +8,10 @@ public:
 	SendData();
 	~SendData();
 
-	int tcpSend();
+	int sendPcmData(char* fileName);
 	int sendPcmData(char* pcmData, int len);
+
+private:
+	void _init();
+	void _close();
 };

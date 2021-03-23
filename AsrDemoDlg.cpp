@@ -413,8 +413,8 @@ void AsrDemoDlg::OnBnClickedStartStop()
 
 		//m_sendData->tcpSend();
 		m_sendData->sendPcmData(m_pcm_buffer, m_count);
-		m_count = 0;
 		printf("sent %d data\n", m_count);
+		m_count = 0;
 	}
 	GetDlgItem(IDC_BROWSE)->EnableWindow(bEnable);
 	GetDlgItem(IDC_DEVICES)->EnableWindow(bEnable);

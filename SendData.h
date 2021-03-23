@@ -2,12 +2,12 @@
 
 class SendData {
 private:
-	SOCKET _sclient;
+	SOCKET _socketFd;
 
 public:
 	SendData();
 	~SendData();
 
 	int tcpSend();
-	int sendPcmData(char* pcm_data, int len);
+	int sendPcmData(char* pcmData, int len);
 };

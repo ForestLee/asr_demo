@@ -10,28 +10,31 @@ SendData::SendData() {
 	WSADATA data;
 	if (WSAStartup(sockVersion, &data) != 0)
 	{
-		printf("WSAStartup fail !");
+		printf("WSAStartup fail !\n");
 	}
 
-	_sclient = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-	if (_sclient == INVALID_SOCKET)
+	_socketFd = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+	if (_socketFd == INVALID_SOCKET)
 	{
-		printf("invalid socket !");
+		printf("invalid socket !\n");
 	}
+	int timeout = 3000; //3s
+	int ret = setsockopt(_socketFd, SOL_SOCKET, SO_SNDTIMEO, (char *)&timeout, sizeof(timeout));
+	ret = setsockopt(_socketFd, SOL_SOCKET, SO_RCVTIMEO, (char*)&timeout, sizeof(timeout));
 
 	struct sockaddr_in serAddr;
 	serAddr.sin_family = AF_INET;
 	serAddr.sin_port = htons(9995);
 	serAddr.sin_addr.S_un.S_addr = inet_addr("124.71.179.241");
-	if (connect(_sclient, (struct sockaddr*) & serAddr, sizeof(serAddr)) == SOCKET_ERROR)
+	if (connect(_socketFd, (struct sockaddr*) & serAddr, sizeof(serAddr)) == SOCKET_ERROR)
 	{
-		printf("connect error !");
-		closesocket(_sclient);
+		printf("connect error !\n");
+		closesocket(_socketFd);
 	}
 }
 
 SendData::~SendData() {
-	closesocket(_sclient);
+	closesocket(_socketFd);
 	WSACleanup();
 }
 
@@ -42,36 +45,28 @@ int SendData::tcpSend()
 	{
 
 		char* sendData = "·¢ËÍÊý¾Ý²âÊÔ\n";
-		send(_sclient, sendData, strlen(sendData), 0);
+		send(_socketFd, sendData, strlen(sendData), 0);
 		char recData[255];
-		/*int ret = recv(sclient, recData, 255, 0);
+		int ret = recv(_socketFd, recData, 255, 0);
 		if (ret > 0)
 		{
-
-			recData[ret] = 0x00;
-			//printf(recData);
-			printf("%d%s",i,recData);
+			printf("%s\n", recData);
 		}
-		*/
 	}
 
 	return 0;
 }
 
-int SendData::sendPcmData(char *pcm_data, int len)
+int SendData::sendPcmData(char *pcmData, int len)
 {
 
-	send(_sclient, pcm_data, len, 0);
+	send(_socketFd, pcmData, len, 0);
 	char recData[255];
-	/*int ret = recv(sclient, recData, 255, 0);
+	int ret = recv(_socketFd, recData, 255, 0);
 	if (ret > 0)
 	{
-
-		recData[ret] = 0x00;
-		//printf(recData);
-		printf("%d%s",i,recData);
+		printf("%s\n", recData);
 	}
-	*/
 
 	return 0;
 }

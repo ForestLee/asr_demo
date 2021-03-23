@@ -27,6 +27,105 @@
     <ClCompile Include="AsrDemoDlg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="WebRtcMoudle\analog_agc.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WebRtcMoudle\complex_bit_reverse.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WebRtcMoudle\complex_fft.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WebRtcMoudle\copy_set_operations.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WebRtcMoudle\cross_correlation.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WebRtcMoudle\digital_agc.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WebRtcMoudle\division_operations.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WebRtcMoudle\dot_product_with_scale.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WebRtcMoudle\downsample_fast.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WebRtcMoudle\energy.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WebRtcMoudle\fft4g.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WebRtcMoudle\get_scaling_square.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WebRtcMoudle\min_max_operations.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WebRtcMoudle\noise_suppression.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WebRtcMoudle\noise_suppression_x.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WebRtcMoudle\ns_core.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WebRtcMoudle\nsx_core.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WebRtcMoudle\nsx_core_c.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WebRtcMoudle\nsx_core_neon_offsets.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WebRtcMoudle\real_fft.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WebRtcMoudle\resample.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WebRtcMoudle\resample_48khz.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WebRtcMoudle\resample_by_2.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WebRtcMoudle\resample_by_2_internal.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WebRtcMoudle\resample_by_2_mips.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WebRtcMoudle\resample_fractional.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WebRtcMoudle\ring_buffer.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WebRtcMoudle\spl_init.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WebRtcMoudle\spl_sqrt.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WebRtcMoudle\spl_sqrt_floor.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WebRtcMoudle\splitting_filter.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WebRtcMoudle\vector_scaling_operations.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WebRtcNS.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Resource.h">
@@ -42,6 +141,66 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="AsrDemoDlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WebRtcMoudle\analog_agc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WebRtcMoudle\complex_fft_tables.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WebRtcMoudle\cpu_features_wrapper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WebRtcMoudle\defines.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WebRtcMoudle\digital_agc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WebRtcMoudle\fft4g.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WebRtcMoudle\gain_control.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WebRtcMoudle\noise_suppression.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WebRtcMoudle\noise_suppression_x.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WebRtcMoudle\ns_core.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WebRtcMoudle\nsx_core.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WebRtcMoudle\nsx_defines.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WebRtcMoudle\real_fft.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WebRtcMoudle\resample_by_2_internal.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WebRtcMoudle\ring_buffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WebRtcMoudle\signal_processing_library.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WebRtcMoudle\spl_inl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WebRtcMoudle\typedefs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WebRtcMoudle\windows_private.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WebRtcNS.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

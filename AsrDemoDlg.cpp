@@ -13,8 +13,11 @@
 
 #define SAVE_WAV_FILE  false
 #define FORCE_16K_MONO_16B  false
-#define MAX_PCM_BUFFER	1024*1024*1    // 1M
 
+#define WAVE_FORMAT_16M08       0x00100000       /* 16 kHz, Mono,   8-bit  */
+#define WAVE_FORMAT_16S08       0x00200000       /* 16 kHz, Stereo, 8-bit  */
+#define WAVE_FORMAT_16M16       0x00400000       /* 16 kHz, Mono,   16-bit  */
+#define WAVE_FORMAT_16S16       0x00800000       /* 16 kHz, Stereo, 16-bit  */
 
 AsrDemoDlg::AsrDemoDlg(CWnd* pParent /*=NULL*/)
 	: CDialog(AsrDemoDlg::IDD, pParent)
@@ -25,8 +28,11 @@ AsrDemoDlg::AsrDemoDlg(CWnd* pParent /*=NULL*/)
 	m_hWaveIn=NULL;
 	ZeroMemory(&m_stWFEX,sizeof(WAVEFORMATEX));
 	ZeroMemory(m_stWHDR,MAX_BUFFERS*sizeof(WAVEHDR));
+
+	m_webRtcNS = new WebRtcNS();
 	m_sendData = new SendData();
-	m_pcm_buffer = (char *)malloc(MAX_PCM_BUFFER);
+	m_pInBuffer = (char *)malloc(MAX_PCM_BUFFER);
+	m_pOutBuffer = (char*)malloc(MAX_PCM_BUFFER);
 	m_count = 0;
 }
 
@@ -34,8 +40,13 @@ AsrDemoDlg::~AsrDemoDlg()
 {
 	delete m_sendData;
 	m_sendData = nullptr;
-	free(m_pcm_buffer);
-	m_pcm_buffer = nullptr;
+
+	delete m_webRtcNS;
+	m_webRtcNS = nullptr;
+	free(m_pInBuffer);
+	m_pInBuffer = nullptr;
+	free(m_pOutBuffer);
+	m_pOutBuffer = nullptr;
 }
 
 
@@ -105,9 +116,7 @@ UINT AsrDemoDlg::FillDevices()
 	}
 	return nDevices;
 }
-// If you add a minimize button to your dialog, you will need the code below
-//  to draw the icon.  For MFC applications using the document/view model,
-//  this is automatically done for you by the framework.
+
 
 void AsrDemoDlg::OnPaint()
 {
@@ -134,8 +143,7 @@ void AsrDemoDlg::OnPaint()
 	}
 }
 
-// The system calls this function to obtain the cursor to display while the user drags
-//  the minimized window.
+
 HCURSOR AsrDemoDlg::OnQueryDragIcon()
 {
 	return static_cast<HCURSOR>(m_hIcon);
@@ -180,7 +188,7 @@ VOID AsrDemoDlg::ProcessRecordData(WAVEHDR * pHdr)
 	{
 		// m_sendData->sendPcmData(pHdr->lpData, pHdr->dwBytesRecorded);
 		if (m_count + pHdr->dwBytesRecorded < MAX_PCM_BUFFER) {
-			memcpy(m_pcm_buffer + m_count, pHdr->lpData, pHdr->dwBytesRecorded);
+			memcpy(m_pInBuffer + m_count, pHdr->lpData, pHdr->dwBytesRecorded);
 			m_count += pHdr->dwBytesRecorded;
 		}
 		else {
@@ -239,7 +247,8 @@ VOID AsrDemoDlg::OpenDevice()
 	GetDlgItem(IDC_FILENAME)->GetWindowText(csT1);
 	ZeroMemory(&m_stmmIF,sizeof(MMIOINFO));
 	DeleteFile((PCHAR)(LPCTSTR)csT1);
-	m_hOPFile=mmioOpen((PCHAR)(LPCTSTR)csT1,&m_stmmIF,MMIO_WRITE | MMIO_CREATE);
+	m_saveFile = csT1;
+	m_hOPFile=mmioOpen((PCHAR)(LPCTSTR)csT1, &m_stmmIF, MMIO_WRITE | MMIO_CREATE);
 	if(m_hOPFile==NULL)
 		throw "Can not open file...";
 
@@ -307,6 +316,8 @@ VOID AsrDemoDlg::CloseDevice()
 		}
 		mmioClose(m_hOPFile,0);
 		m_hOPFile=NULL;
+
+		m_webRtcNS->doNSAgc(m_saveFile);
 	}
 	m_hWaveIn=NULL;
 }
@@ -364,7 +375,7 @@ VOID AsrDemoDlg::StartRecording()
 	try
 	{
 		m_count = 0;
-		memset(m_pcm_buffer, 0, MAX_PCM_BUFFER);
+		memset(m_pInBuffer, 0, MAX_PCM_BUFFER);
 		OpenDevice();
 		PrepareBuffers();
 		mRes=waveInStart(m_hWaveIn);
@@ -411,9 +422,12 @@ void AsrDemoDlg::OnBnClickedStartStop()
 		bEnable=TRUE;// AfxMessageBox("Recording Stopped..");
 		GetDlgItem(ID_REC)->SetWindowText("&Start");
 
-		//m_sendData->tcpSend();
-		m_sendData->sendPcmData(m_pcm_buffer, m_count);
-		printf("sent %d data\n", m_count);
+		int nsTime = m_webRtcNS->doNS(m_pInBuffer, m_pOutBuffer, m_count);
+		int agcTime = m_webRtcNS->doAgc(m_pOutBuffer, m_pInBuffer, m_count);
+		int nTime = GetTickCount();
+		m_sendData->sendPcmData(m_pInBuffer, m_count);
+		nTime = GetTickCount() - nTime;
+		printf("NS time = %dms, AGC time = %dms, ASR time = %dms\n", nsTime, agcTime, nTime);
 		m_count = 0;
 	}
 	GetDlgItem(IDC_BROWSE)->EnableWindow(bEnable);
@@ -432,10 +446,7 @@ void AsrDemoDlg::OnBnClickedBrowse()
 	}
 }
 
-#define WAVE_FORMAT_16M08       0x00100000       /* 16 kHz, Mono,   8-bit  */
-#define WAVE_FORMAT_16S08       0x00200000       /* 16 kHz, Stereo, 8-bit  */
-#define WAVE_FORMAT_16M16       0x00400000       /* 16 kHz, Mono,   16-bit  */
-#define WAVE_FORMAT_16S16       0x00800000       /* 16 kHz, Stereo, 16-bit  */
+
 
 void AsrDemoDlg::OnSelDevices()
 {

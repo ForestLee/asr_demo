@@ -4,8 +4,11 @@
 #pragma once
 #include <MMSystem.h>
 #include "SendData.h"
+#include "WebRtcNS.h"
 
 #define MAX_BUFFERS	3
+#define MAX_PCM_BUFFER	1024*1024*1    // 1M
+
 // AsrDemoDlg dialog
 class AsrDemoDlg : public CDialog
 {
@@ -57,8 +60,12 @@ private:
 	HMMIO m_hOPFile;
 	MMIOINFO m_stmmIF;
 	MMCKINFO m_stckOut,m_stckOutRIFF; 
+
+	std::string m_saveFile;
+	WebRtcNS *m_webRtcNS;
 	SendData *m_sendData;
-	char *m_pcm_buffer;
+	char *m_pInBuffer;
+	char *m_pOutBuffer;
 	int m_count;
 
 public:

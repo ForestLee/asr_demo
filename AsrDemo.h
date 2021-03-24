@@ -1,6 +1,5 @@
-
-
-#pragma once
+#ifndef _ASR_DEMO_H_
+#define _ASR_DEMO_H_
 
 #ifndef __AFXWIN_H__
 	#error include 'stdafx.h' before including this file for PCH
@@ -28,3 +27,5 @@ public:
 };
 
 extern AsrDemo theApp;
+
+#endif //_ASR_DEMO_H_

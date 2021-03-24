@@ -1,10 +1,14 @@
-// AsrDemoDlg.h : header file
-//
+#ifndef _ASR_DEMO_DLG_H_
+#define _ASR_DEMO_DLG_H_
 
-#pragma once
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <Windows.h>
+#include <string>
+
 #include <MMSystem.h>
-#include "SendData.h"
-#include "WebRtcNS.h"
+#include "utils\NetworkTrans.h"
 
 #define MAX_BUFFERS	3
 #define MAX_PCM_BUFFER	1024*1024*1    // 1M
@@ -38,7 +42,6 @@ public:
 	afx_msg void OnBnClickedBrowse();
 	afx_msg void OnSelDevices();
 
-public:
 	VOID StartRecording();
 	VOID ProcessRecordData(WAVEHDR * pHdr);
 
@@ -50,7 +53,9 @@ private:
 	VOID UnPrepareBuffers();
 	UINT FillDevices();
 	CString StoreError(MMRESULT mRes,BOOL bDisplay,LPCTSTR lpszFormat, ...);
+	void DisplayAsrText(char* text);
 
+private:
 	BOOL m_bRun;
 	HWAVEIN m_hWaveIn;
 	WAVEFORMATEX m_stWFEX;
@@ -62,8 +67,7 @@ private:
 	MMCKINFO m_stckOut,m_stckOutRIFF; 
 
 	std::string m_saveFile;
-	WebRtcNS *m_webRtcNS;
-	SendData *m_sendData;
+	ASR::NetworkTrans *m_sendData;
 	char *m_pInBuffer;
 	char *m_pOutBuffer;
 	int m_count;
@@ -74,3 +78,5 @@ public:
 	afx_msg void OnEnChangeStatus();
 	afx_msg void OnBnClickedSendFile();
 };
+
+#endif  // _ASR_DEMO_DLG_H_

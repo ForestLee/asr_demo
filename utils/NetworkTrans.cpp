@@ -1,16 +1,17 @@
-#include "stdafx.h"
-#include <winsock2.h>
-#include <windows.h>
-#pragma comment(lib,"ws2_32.lib")
-#include <STDIO.H>
-#include "SendData.h"
+#include "NetworkTrans.h"
 
+namespace ASR {
+	
 
-SendData::SendData() {
-	//_init();
+NetworkTrans::NetworkTrans() {
+
 }
 
-void SendData::_init() {
+NetworkTrans::~NetworkTrans() {
+
+}
+
+void NetworkTrans::_init() {
 	WORD sockVersion = MAKEWORD(2, 2);
 	WSADATA data;
 	if (WSAStartup(sockVersion, &data) != 0)
@@ -41,20 +42,17 @@ void SendData::_init() {
 }
 
 
-SendData::~SendData() {
-	//_close();
-}
 
-void SendData::_close() {
+
+void NetworkTrans::_close() {
 	closesocket(_socketFd);
 	WSACleanup();
 }
 
-int SendData::sendPcmData(char *fileName, char *out)
+int NetworkTrans::sendPcmData(char *fileName, char *out)
 {
 	_init();
 
-	//int i = 0;
 	int nFileSize = 0;
 
 	FILE* fpIn = fopen(fileName, "rb");
@@ -127,7 +125,7 @@ int SendData::sendPcmData(char *fileName, char *out)
 	return 0;
 }
 
-int SendData::sendPcmData(char *pcmData, int len)
+int NetworkTrans::sendPcmData(char *pcmData, int len, char *out)
 {
 	int nTime = GetTickCount();
 	_init();
@@ -144,33 +142,33 @@ int SendData::sendPcmData(char *pcmData, int len)
 	}
 	ret = recv(_socketFd, recData, 255, 0);
 	nTime = GetTickCount() - nTime;
-	printf("recv time=%dms\n", nTime);
-	printf("recv %d bytes:\n", ret);
-	if (ret > 0)
-	{
-		char xxx[100] = {0};
-		memcpy(xxx, recData, ret);
-		printf("%s\n", xxx);
-		int ii = 0;
-		while (ii++ < ret)
-			printf("%x  ", (unsigned char)recData[ii - 1]);
+	//printf("recv time=%dms\n", nTime);
+	//printf("recv %d bytes:\n", ret);
+	//if (ret > 0)
+	//{
+	//	int ii = 0;
+	//	while (ii++ < ret)
+	//		printf("%x  ", (unsigned char)recData[ii - 1]);
 
-		printf("\n");
-	}
+	//	printf("\n");
+	//}
 
 	ret = recv(_socketFd, recData, 255, 0);
 	nTime = GetTickCount() - nTime;
-	printf("recv time=%dms\n", nTime);
-	printf("recv %d bytes:\n", ret);
+	//printf("recv time=%dms\n", nTime);
+	//printf("recv %d bytes:\n", ret);
 	if (ret > 0)
 	{
-		printf("%s\n", recData);
-		int ii = 0;
-		while (ii++ < ret)
-			printf("%x  ", (unsigned char)recData[ii - 1]);
-
-		printf("\n");
+		memcpy(out, recData, ret);
+		//printf("%s\n", out);
+		//int ii = 0;
+		//while (ii++ < ret)
+		//	printf("%x  ", (unsigned char)recData[ii - 1]);
+		//
+		//printf("\n");
 	}
 	_close();
 	return 0;
+}
+
 }

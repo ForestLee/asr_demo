@@ -18,9 +18,6 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SendData.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="AsrDemo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -123,7 +120,16 @@
     <ClCompile Include="WebRtcMoudle\vector_scaling_operations.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="WebRtcNS.cpp">
+    <ClCompile Include="utils\FileUtil.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="utils\ChineseConvertUtil.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="utils\NetworkTrans.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="utils\WebRtcWrapper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -132,9 +138,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="stdafx.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SendData.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="AsrDemo.h">
@@ -200,7 +203,16 @@
     <ClInclude Include="WebRtcMoudle\windows_private.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="WebRtcNS.h">
+    <ClInclude Include="utils\FileUtil.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="utils\ChineseConvertUtil.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="utils\NetworkTrans.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="utils\WebRtcWrapper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

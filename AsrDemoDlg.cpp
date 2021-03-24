@@ -4,7 +4,11 @@
 #include "stdafx.h"
 #include "AsrDemo.h"
 #include "AsrDemoDlg.h"
-#include "SendData.h"
+#include "utils\FileUtil.h"
+#include "utils\ChineseConvertUtil.h"
+#include "utils\WebRtcWrapper.h"
+
+using namespace ASR;
 
 #pragma comment(lib,"winmm.lib")
 #ifdef _DEBUG
@@ -29,8 +33,7 @@ AsrDemoDlg::AsrDemoDlg(CWnd* pParent /*=NULL*/)
 	ZeroMemory(&m_stWFEX,sizeof(WAVEFORMATEX));
 	ZeroMemory(m_stWHDR,MAX_BUFFERS*sizeof(WAVEHDR));
 
-	m_webRtcNS = new WebRtcNS();
-	m_sendData = new SendData();
+	m_sendData = new NetworkTrans();
 	m_pInBuffer = (char *)malloc(MAX_PCM_BUFFER);
 	m_pOutBuffer = (char*)malloc(MAX_PCM_BUFFER);
 	m_count = 0;
@@ -41,8 +44,6 @@ AsrDemoDlg::~AsrDemoDlg()
 	delete m_sendData;
 	m_sendData = nullptr;
 
-	delete m_webRtcNS;
-	m_webRtcNS = nullptr;
 	free(m_pInBuffer);
 	m_pInBuffer = nullptr;
 	free(m_pOutBuffer);
@@ -319,7 +320,7 @@ VOID AsrDemoDlg::CloseDevice()
 		mmioClose(m_hOPFile,0);
 		m_hOPFile=NULL;
 
-		m_webRtcNS->doNSAgc(m_saveFile);
+		WebRTCUtil::WebRtcWrapper::doNSAgc(m_saveFile);
 	}
 	m_hWaveIn=NULL;
 }
@@ -424,10 +425,15 @@ void AsrDemoDlg::OnBnClickedStartStop()
 		bEnable=TRUE;// AfxMessageBox("Recording Stopped..");
 		GetDlgItem(ID_REC)->SetWindowText("&Start");
 
-		int nsTime = m_webRtcNS->doNS(m_pInBuffer, m_pOutBuffer, m_count);
-		int agcTime = m_webRtcNS->doAgc(m_pOutBuffer, m_pInBuffer, m_count);
+		int nsTime = WebRTCUtil::WebRtcWrapper::doNS(m_pInBuffer, m_pOutBuffer, m_count);
+		int agcTime = WebRTCUtil::WebRtcWrapper::doAgc(m_pOutBuffer, m_pInBuffer, m_count);
 		int nTime = GetTickCount();
-		m_sendData->sendPcmData(m_pInBuffer, m_count);
+
+		char out[256] = {0};
+		m_sendData->sendPcmData(m_pInBuffer, m_count, out);
+		char out2[256] = { 0 };
+		ChineseConvertUtil::Utf8ToGB2312(out, out2);
+		DisplayAsrText(out2);
 		nTime = GetTickCount() - nTime;
 		printf("NS time = %dms, AGC time = %dms, ASR time = %dms\n", nsTime, agcTime, nTime);
 		m_count = 0;
@@ -547,8 +553,9 @@ VOID AsrDemoDlg::SetStatus(LPCTSTR lpszFormat, ...)
 	va_start(args, lpszFormat);
 	csT1.FormatV(lpszFormat,args);
 	va_end(args);
-	if(IsWindow(m_hWnd) && GetDlgItem(IDC_STATUS))
+	if (IsWindow(m_hWnd) && GetDlgItem(IDC_STATUS)) {
 		GetDlgItem(IDC_STATUS)->SetWindowText(csT1);
+	}
 }
 
 
@@ -573,6 +580,21 @@ void AsrDemoDlg::OnEnChangeStatus()
 void AsrDemoDlg::OnBnClickedSendFile()
 {
 	char out[200] = { 0 };
+	char out2[200] = { 0 };
 	m_sendData->sendPcmData("D:\\work\\asr\\T0055G0002S0001.pcm", out);
-	SetStatus(out);
+	FileUtil::WriteReadFileTest(out, out2);
+	ChineseConvertUtil::Utf8ToGB2312(out, out2);
+	SetStatus(out2);
 }
+
+
+
+
+void AsrDemoDlg::DisplayAsrText(char* text) {
+	CEdit* Information_Box;
+	Information_Box = (CEdit*)GetDlgItem(IDC_RECV_DATA);
+
+	Information_Box->SetWindowTextA(_T(text));
+}
+
+

@@ -109,12 +109,27 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="SendData.cpp" />
-    <ClCompile Include="AsrDemo.cpp" />
-    <ClCompile Include="AsrDemoDlg.cpp" />
+    <ClCompile Include="AsrDemo.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="AsrDemoDlg.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="utils\ChineseConvertUtil.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="utils\FileUtil.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="utils\NetworkTrans.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="utils\WebRtcWrapper.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="WebRtcMoudle\analog_agc.c">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
@@ -212,14 +227,16 @@
     <ClCompile Include="WebRtcMoudle\vector_scaling_operations.c">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="WebRtcNS.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Resource.h" />
-    <ClInclude Include="SendData.h" />
     <ClInclude Include="AsrDemo.h" />
     <ClInclude Include="AsrDemoDlg.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="utils\ChineseConvertUtil.h" />
+    <ClInclude Include="utils\FileUtil.h" />
+    <ClInclude Include="utils\NetworkTrans.h" />
+    <ClInclude Include="utils\WebRtcWrapper.h" />
     <ClInclude Include="WebRtcMoudle\analog_agc.h" />
     <ClInclude Include="WebRtcMoudle\complex_fft_tables.h" />
     <ClInclude Include="WebRtcMoudle\cpu_features_wrapper.h" />
@@ -239,7 +256,6 @@
     <ClInclude Include="WebRtcMoudle\spl_inl.h" />
     <ClInclude Include="WebRtcMoudle\typedefs.h" />
     <ClInclude Include="WebRtcMoudle\windows_private.h" />
-    <ClInclude Include="WebRtcNS.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\AsrDemo.ico" />

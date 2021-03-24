@@ -8,7 +8,7 @@ public:
 	SendData();
 	~SendData();
 
-	int sendPcmData(char* fileName);
+	int sendPcmData(char* fileName, char *out);
 	int sendPcmData(char* pcmData, int len);
 
 private:

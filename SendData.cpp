@@ -5,6 +5,7 @@
 #include <STDIO.H>
 #include "SendData.h"
 
+
 SendData::SendData() {
 	//_init();
 }
@@ -24,7 +25,7 @@ void SendData::_init() {
 	}
 	int timeout = 3000; //3s
 	int ret = setsockopt(_socketFd, SOL_SOCKET, SO_SNDTIMEO, (char *)&timeout, sizeof(timeout));
-	ret = setsockopt(_socketFd, SOL_SOCKET, SO_RCVTIMEO, (char*)&timeout, sizeof(timeout));
+	//ret = setsockopt(_socketFd, SOL_SOCKET, SO_RCVTIMEO, (char*)&timeout, sizeof(timeout));
 
 	struct sockaddr_in serAddr;
 	serAddr.sin_family = AF_INET;
@@ -39,6 +40,7 @@ void SendData::_init() {
 	}
 }
 
+
 SendData::~SendData() {
 	//_close();
 }
@@ -48,7 +50,7 @@ void SendData::_close() {
 	WSACleanup();
 }
 
-int SendData::sendPcmData(char *fileName)
+int SendData::sendPcmData(char *fileName, char *out)
 {
 	_init();
 
@@ -70,19 +72,54 @@ int SendData::sendPcmData(char *fileName)
 
 	int nTime = GetTickCount();
 	send(_socketFd, pInBuffer, nFileSize, 0);
+
+	//int count = 0;
+	//while (count + 3200 < nFileSize) {
+	//	send(_socketFd, &pInBuffer[count], 3200, 0);
+	//	count += 3200;
+	//}
 	nTime = GetTickCount() - nTime;
 	printf("send time=%dms\n", nTime);
 
 	char recData[255];
 	memset(recData, 0, 255);
 	int ret = recv(_socketFd, recData, 255, 0);
+	if (1 == ret) {
+		printf("recv 1 byte %x\n", (unsigned char)recData[0]);
+	}
+	ret = recv(_socketFd, recData, 255, 0);
 	nTime = GetTickCount() - nTime;
 	printf("recv time=%dms\n", nTime);
+	printf("recv %d bytes:\n", ret);
 	if (ret > 0)
 	{
-		printf("recv %d data: %s\n", ret, recData);
+		char xxx[100] = { 0 };
+		memcpy(xxx, recData, ret);
+		printf("%s\n", xxx);
+		memcpy(out, recData, ret);
+		int ii = 0;
+		while (ii++ < ret)
+		  printf("%x  ", (unsigned char)recData[ii-1]);
+
+		printf("\n");
 	}
 	
+	ret = recv(_socketFd, recData, 255, 0);
+	nTime = GetTickCount() - nTime;
+	printf("recv time=%dms\n", nTime);
+	printf("recv %d bytes:\n", ret);
+	if (ret > 0)
+	{
+		printf("%s\n", recData);
+		int ii = 0;
+		while (ii++ < ret)
+			printf("%x  ", (unsigned char)recData[ii - 1]);
+
+		printf("\n");
+	}
+
+	printf("%s\n", "ÄãºÃ");
+
 	fclose(fpIn);
 	free(pInBuffer);
 
@@ -102,11 +139,37 @@ int SendData::sendPcmData(char *pcmData, int len)
 	char recData[255];
 	memset(recData, 0, 255);
 	int ret = recv(_socketFd, recData, 255, 0);
+	if (1 == ret) {
+		printf("recv 1 byte %x\n", (unsigned char)recData[0]);
+	}
+	ret = recv(_socketFd, recData, 255, 0);
 	nTime = GetTickCount() - nTime;
 	printf("recv time=%dms\n", nTime);
+	printf("recv %d bytes:\n", ret);
 	if (ret > 0)
 	{
-		printf("recv %d data: %s\n", ret, recData);
+		char xxx[100] = {0};
+		memcpy(xxx, recData, ret);
+		printf("%s\n", xxx);
+		int ii = 0;
+		while (ii++ < ret)
+			printf("%x  ", (unsigned char)recData[ii - 1]);
+
+		printf("\n");
+	}
+
+	ret = recv(_socketFd, recData, 255, 0);
+	nTime = GetTickCount() - nTime;
+	printf("recv time=%dms\n", nTime);
+	printf("recv %d bytes:\n", ret);
+	if (ret > 0)
+	{
+		printf("%s\n", recData);
+		int ii = 0;
+		while (ii++ < ret)
+			printf("%x  ", (unsigned char)recData[ii - 1]);
+
+		printf("\n");
 	}
 	_close();
 	return 0;

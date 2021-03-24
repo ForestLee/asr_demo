@@ -554,34 +554,36 @@ VOID AsrDemoDlg::SetStatus(LPCTSTR lpszFormat, ...)
 
 void AsrDemoDlg::OnCbSelFormats()
 {
-	// TODO: ÔÚ´ËÌí¼Ó¿Ø¼þÍ¨Öª´¦Àí³ÌÐò´úÂë
+	// TODO: ï¿½Ú´ï¿½ï¿½ï¿½Ó¿Ø¼ï¿½Í¨Öªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 }
 
 
 void AsrDemoDlg::OnEnChangeFilename()
 {
-	// TODO:  Èç¹û¸Ã¿Ø¼þÊÇ RICHEDIT ¿Ø¼þ£¬Ëü½«²»
-	// ·¢ËÍ´ËÍ¨Öª£¬³ý·ÇÖØÐ´ CDialog::OnInitDialog()
-	// º¯Êý²¢µ÷ÓÃ CRichEditCtrl().SetEventMask()£¬
-	// Í¬Ê±½« ENM_CHANGE ±êÖ¾¡°»ò¡±ÔËËãµ½ÑÚÂëÖÐ¡£
+	// TODO:  ï¿½ï¿½ï¿½ï¿½Ã¿Ø¼ï¿½ï¿½ï¿½ RICHEDIT ï¿½Ø¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	// ï¿½ï¿½ï¿½Í´ï¿½Í¨Öªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð´ CDialog::OnInitDialog()
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ CRichEditCtrl().SetEventMask()ï¿½ï¿½
+	// Í¬Ê±ï¿½ï¿½ ENM_CHANGE ï¿½ï¿½Ö¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ãµ½ï¿½ï¿½ï¿½ï¿½ï¿½Ð¡ï¿½
 
-	// TODO:  ÔÚ´ËÌí¼Ó¿Ø¼þÍ¨Öª´¦Àí³ÌÐò´úÂë
+	// TODO:  ï¿½Ú´ï¿½ï¿½ï¿½Ó¿Ø¼ï¿½Í¨Öªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 }
 
 
 void AsrDemoDlg::OnEnChangeStatus()
 {
-	// TODO:  Èç¹û¸Ã¿Ø¼þÊÇ RICHEDIT ¿Ø¼þ£¬Ëü½«²»
-	// ·¢ËÍ´ËÍ¨Öª£¬³ý·ÇÖØÐ´ CDialog::OnInitDialog()
-	// º¯Êý²¢µ÷ÓÃ CRichEditCtrl().SetEventMask()£¬
-	// Í¬Ê±½« ENM_CHANGE ±êÖ¾¡°»ò¡±ÔËËãµ½ÑÚÂëÖÐ¡£
+	// TODO:  ï¿½ï¿½ï¿½ï¿½Ã¿Ø¼ï¿½ï¿½ï¿½ RICHEDIT ï¿½Ø¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	// ï¿½ï¿½ï¿½Í´ï¿½Í¨Öªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð´ CDialog::OnInitDialog()
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ CRichEditCtrl().SetEventMask()ï¿½ï¿½
+	// Í¬Ê±ï¿½ï¿½ ENM_CHANGE ï¿½ï¿½Ö¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ãµ½ï¿½ï¿½ï¿½ï¿½ï¿½Ð¡ï¿½
 
-	// TODO:  ÔÚ´ËÌí¼Ó¿Ø¼þÍ¨Öª´¦Àí³ÌÐò´úÂë
+	// TODO:  ï¿½Ú´ï¿½ï¿½ï¿½Ó¿Ø¼ï¿½Í¨Öªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 }
 
 
 void AsrDemoDlg::OnBnClickedSendFile()
 {
-	// TODO: ÔÚ´ËÌí¼Ó¿Ø¼þÍ¨Öª´¦Àí³ÌÐò´úÂë
-	m_sendData->sendPcmData("D:\\work\\asr\\T0055G0002S0001.pcm");
+	// TODO: ï¿½Ú´ï¿½ï¿½ï¿½Ó¿Ø¼ï¿½Í¨Öªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	char out[200] = { 0 };
+	m_sendData->sendPcmData("D:\\work\\asr\\T0055G0002S0001.pcm", out);
+	SetStatus(out);
 }

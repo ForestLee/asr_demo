@@ -71,8 +71,7 @@ int NetworkTrans::sendPcmData(char *fileName, char *out)
 
 	int nTime = GetTickCount();
 	send(_socketFd, pInBuffer, nFileSize, 0);
-	int sendTime = GetTickCount() - nTime;
-	printf("send time=%dms\n", sendTime);
+	printf("send time=%dms\n", GetTickCount() - nTime);
 
 	nTime = GetTickCount();
 	char recData[255];
@@ -94,8 +93,7 @@ int NetworkTrans::sendPcmData(char *fileName, char *out)
 	if (RECV_SECOND_DATA) {
 		nTime = GetTickCount();
 		ret = recv(_socketFd, recData, 255, 0);
-		nTime = GetTickCount() - nTime;
-		printf("2 recv time=%dms\n", nTime);
+		printf("2 recv time=%dms\n", GetTickCount() - nTime);
 		printf("2 recv %d bytes:\n", ret);
 		if (ret > 0)
 		{
@@ -111,7 +109,7 @@ int NetworkTrans::sendPcmData(char *fileName, char *out)
 	free(pInBuffer);
 
 	_close();
-	return 0;
+	return recvTime;
 }
 
 int NetworkTrans::sendPcmData(char *pcmData, int len, char *out)
@@ -131,7 +129,8 @@ int NetworkTrans::sendPcmData(char *pcmData, int len, char *out)
 	//	printf("recv 1 byte %x\n", (unsigned char)recData[0]);
 	//}
 	ret = recv(_socketFd, recData, 255, 0);
-	printf("1 recv time=%dms\n", GetTickCount() - nTime);
+	int recvTime = GetTickCount() - nTime;
+	printf("1 recv time=%dms\n", recvTime);
 	printf("1 recv %d bytes:\n", ret);
 	if (ret > 0)
 	{
@@ -149,7 +148,7 @@ int NetworkTrans::sendPcmData(char *pcmData, int len, char *out)
 		}
 	}
 	_close();
-	return 0;
+	return recvTime;
 }
 
 }

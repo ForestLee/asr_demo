@@ -430,11 +430,13 @@ void AsrDemoDlg::OnBnClickedStartStop()
 		int nTime = GetTickCount();
 
 		char out[256] = {0};
-		m_networkTrans->sendPcmData(m_pInBuffer, m_count, out);
+		int recvTime = m_networkTrans->sendPcmData(m_pInBuffer, m_count, out);
 		nTime = GetTickCount() - nTime;
 		char out2[256] = { 0 };
 		ChineseConvertUtil::Utf8ToGB2312(out, out2);
-		DisplayAsrText(out2);
+		char outputStr[512] = {0};
+		sprintf(outputStr, "%s recvTime[%d]ms\n", out2, recvTime);
+		DisplayAsrText(outputStr);
 		
 		printf("NS time = %dms, AGC time = %dms, ASR time = %dms\n", nsTime, agcTime, nTime);
 		m_count = 0;
@@ -582,10 +584,12 @@ void AsrDemoDlg::OnBnClickedSendFile()
 {
 	char out[256] = { 0 };
 	char out2[256] = { 0 };
-	m_networkTrans->sendPcmData("D:\\work\\asr\\T0055G0002S0001.pcm", out);
+	int recvTime = m_networkTrans->sendPcmData("D:\\work\\asr\\T0055G0002S0001.pcm", out);
 	//FileUtil::WriteReadFileTest(out, out2);
 	ChineseConvertUtil::Utf8ToGB2312(out, out2);
-	DisplayAsrText(out2);
+	char outputStr[512] = { 0 };
+	sprintf(outputStr, "%s recvTime[%d]ms\n", out2, recvTime);
+	DisplayAsrText(outputStr);
 }
 
 

@@ -11,7 +11,7 @@ namespace WebRTCUtil {
 
 
 
-	void WebRtcWrapper::_noiseSuppression32(string input_path, string output_path, int nSample, int nMode)
+	int WebRtcWrapper::_noiseSuppression32(string input_path, string output_path, int nSample, int nMode)
 	{
 
 		FILE* fpInputf, * fpOutput;
@@ -26,12 +26,12 @@ namespace WebRTCUtil {
 
 		char* pInBuffer = NULL;
 		char* pOutBuffer = NULL;
+		int nTime = 0;
 
 		do
 		{
 			int i = 0;
 			int nFileSize = 0;
-			int nTime = 0;
 			if (0 != WebRtcNs_Create(&pNS_inst))
 			{
 				printf("Noise_Suppression WebRtcNs_Create err! \n");
@@ -101,7 +101,7 @@ namespace WebRTCUtil {
 			}
 
 			nTime = GetTickCount() - nTime;
-			printf("NS user time=%dms\n", nTime);
+			//printf("NS user time=%dms\n", nTime);
 			fpOut = fopen(out_path, "wb");
 			if (NULL == fpOut)
 			{
@@ -116,6 +116,7 @@ namespace WebRTCUtil {
 		fclose(fpOut);
 		free(pInBuffer);
 		free(pOutBuffer);
+		return nTime;
 	}
 
 

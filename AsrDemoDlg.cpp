@@ -438,7 +438,9 @@ void AsrDemoDlg::OnBnClickedStartStop()
 		sprintf(outputStr, "%s recvTime[%d]ms\n", out2, recvTime);
 		DisplayAsrText(outputStr);
 		
-		printf("NS time = %dms, AGC time = %dms, ASR time = %dms\n", nsTime, agcTime, nTime);
+#ifdef DEBUG
+		//printf("NS time = %dms, AGC time = %dms, ASR time = %dms\n", nsTime, agcTime, nTime);
+#endif
 		m_count = 0;
 	}
 	GetDlgItem(IDC_BROWSE)->EnableWindow(bEnable);

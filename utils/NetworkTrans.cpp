@@ -2,7 +2,7 @@
 
 namespace ASR {
 	
-#define RECV_SECOND_DATA   false
+#define RECV_SECOND_DATA   true
 
 NetworkTrans::NetworkTrans() {
 
@@ -71,8 +71,9 @@ int NetworkTrans::sendPcmData(char *fileName, char *out)
 
 	int nTime = GetTickCount();
 	send(_socketFd, pInBuffer, nFileSize, 0);
+#ifdef DEBUG
 	printf("send time=%dms\n", GetTickCount() - nTime);
-
+#endif
 	nTime = GetTickCount();
 	char recData[255];
 	memset(recData, 0, 255);
@@ -83,8 +84,10 @@ int NetworkTrans::sendPcmData(char *fileName, char *out)
 	ret = recv(_socketFd, recData, 255, 0);
 	
 	int recvTime = GetTickCount() - nTime;
+#ifdef DEBUG
 	printf("1 recv time=%dms\n", recvTime);
 	printf("1 recv %d bytes:\n", ret);
+#endif
 	if (ret > 0)
 	{
 		memcpy(out, recData, ret);
@@ -93,16 +96,20 @@ int NetworkTrans::sendPcmData(char *fileName, char *out)
 	if (RECV_SECOND_DATA) {
 		nTime = GetTickCount();
 		ret = recv(_socketFd, recData, 255, 0);
+#ifdef DEBUG
 		printf("2 recv time=%dms\n", GetTickCount() - nTime);
 		printf("2 recv %d bytes:\n", ret);
+#endif
 		if (ret > 0)
 		{
 			memcpy(out, recData, ret);
+#ifdef DEBUG
 			int ii = 0;
 			while (ii++ < ret)
 				printf("%x  ", (unsigned char)recData[ii - 1]);
 
 			printf("\n");
+#endif
 		}
 	}
 	fclose(fpIn);
@@ -116,10 +123,14 @@ int NetworkTrans::sendPcmData(char *pcmData, int len, char *out)
 {
 	int nTime = GetTickCount();
 	_init();
+#ifdef DEBUG
 	printf("init time=%dms\n", GetTickCount() - nTime);
+#endif
 	nTime = GetTickCount();
 	send(_socketFd, pcmData, len, 0);
+#ifdef DEBUG
 	printf("send time=%dms\n", GetTickCount() - nTime);
+#endif
 
 	nTime = GetTickCount();
 	char recData[255];
@@ -130,8 +141,10 @@ int NetworkTrans::sendPcmData(char *pcmData, int len, char *out)
 	//}
 	ret = recv(_socketFd, recData, 255, 0);
 	int recvTime = GetTickCount() - nTime;
+#ifdef DEBUG
 	printf("1 recv time=%dms\n", recvTime);
 	printf("1 recv %d bytes:\n", ret);
+#endif
 	if (ret > 0)
 	{
 		memcpy(out, recData, ret);
@@ -140,8 +153,10 @@ int NetworkTrans::sendPcmData(char *pcmData, int len, char *out)
 	if (RECV_SECOND_DATA) {
 		nTime = GetTickCount();
 		ret = recv(_socketFd, recData, 255, 0);
+#ifdef DEBUG
 		printf("2 recv time=%dms\n", GetTickCount() - nTime);
 		printf("2 recv %d bytes:\n", ret);
+#endif
 		if (ret > 0)
 		{
 			memcpy(out, recData, ret);

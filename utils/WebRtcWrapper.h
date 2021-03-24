@@ -25,7 +25,7 @@ namespace WebRTCUtil {
 		static void doNSAgc(std::string filePath);
 
 	private:
-		static void _noiseSuppression32(std::string input_path, std::string output_path, int nSample, int nMode);
+		static int _noiseSuppression32(std::string input_path, std::string output_path, int nSample, int nMode);
 		static void _noiseSuppressionX32(char* szFileIn, char* szFileOut, int nSample, int nMode);
 		static void _agc(std::string input_path, std::string output_path, int fs);
 		static void _getFiles(std::string path, std::vector<std::string>& files, std::vector<std::string>& files_alone);

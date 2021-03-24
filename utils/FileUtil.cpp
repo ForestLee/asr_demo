@@ -12,14 +12,14 @@ namespace ASR {
 
 		fp = fopen("d:\\tmp\\test.txt", "r");
 		if (nullptr != str) {
-			fscanf(fp, "%s", out);
-			printf("1: %s\n", out);
+			//fscanf(fp, "%s", out);
+			//printf("1: %s\n", out);
 
-			fgets(out, 255, (FILE*)fp);
-			printf("2: %s\n", out);
+			//fgets(out, 255, (FILE*)fp);
+			//printf("2: %s\n", out);
 
-			fgets(out, 255, (FILE*)fp);
-			printf("3: %s\n", out);
+			//fgets(out, 255, (FILE*)fp);
+			//printf("3: %s\n", out);
 		}
 		fclose(fp);
 	}

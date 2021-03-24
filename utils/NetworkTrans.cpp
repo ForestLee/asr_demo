@@ -2,6 +2,7 @@
 
 namespace ASR {
 	
+#define RECV_SECOND_DATA   false
 
 NetworkTrans::NetworkTrans() {
 
@@ -24,8 +25,8 @@ void NetworkTrans::_init() {
 	{
 		printf("invalid socket !\n");
 	}
-	int timeout = 3000; //3s
-	int ret = setsockopt(_socketFd, SOL_SOCKET, SO_SNDTIMEO, (char *)&timeout, sizeof(timeout));
+	//int timeout = 3000; //3s
+	//int ret = setsockopt(_socketFd, SOL_SOCKET, SO_SNDTIMEO, (char *)&timeout, sizeof(timeout));
 	//ret = setsockopt(_socketFd, SOL_SOCKET, SO_RCVTIMEO, (char*)&timeout, sizeof(timeout));
 
 	struct sockaddr_in serAddr;
@@ -70,54 +71,42 @@ int NetworkTrans::sendPcmData(char *fileName, char *out)
 
 	int nTime = GetTickCount();
 	send(_socketFd, pInBuffer, nFileSize, 0);
+	int sendTime = GetTickCount() - nTime;
+	printf("send time=%dms\n", sendTime);
 
-	//int count = 0;
-	//while (count + 3200 < nFileSize) {
-	//	send(_socketFd, &pInBuffer[count], 3200, 0);
-	//	count += 3200;
-	//}
-	nTime = GetTickCount() - nTime;
-	printf("send time=%dms\n", nTime);
-
+	nTime = GetTickCount();
 	char recData[255];
 	memset(recData, 0, 255);
 	int ret = recv(_socketFd, recData, 255, 0);
-	if (1 == ret) {
-		printf("recv 1 byte %x\n", (unsigned char)recData[0]);
-	}
+	//if (1 == ret) {
+	//	printf("recv 1 byte %x\n", (unsigned char)recData[0]);
+	//}
 	ret = recv(_socketFd, recData, 255, 0);
-	nTime = GetTickCount() - nTime;
-	printf("recv time=%dms\n", nTime);
-	printf("recv %d bytes:\n", ret);
-	if (ret > 0)
-	{
-		char xxx[100] = { 0 };
-		memcpy(xxx, recData, ret);
-		printf("%s\n", xxx);
-		memcpy(out, recData, ret);
-		int ii = 0;
-		while (ii++ < ret)
-		  printf("%x  ", (unsigned char)recData[ii-1]);
-
-		printf("\n");
-	}
 	
-	ret = recv(_socketFd, recData, 255, 0);
-	nTime = GetTickCount() - nTime;
-	printf("recv time=%dms\n", nTime);
-	printf("recv %d bytes:\n", ret);
+	int recvTime = GetTickCount() - nTime;
+	printf("1 recv time=%dms\n", recvTime);
+	printf("1 recv %d bytes:\n", ret);
 	if (ret > 0)
 	{
-		printf("%s\n", recData);
-		int ii = 0;
-		while (ii++ < ret)
-			printf("%x  ", (unsigned char)recData[ii - 1]);
-
-		printf("\n");
+		memcpy(out, recData, ret);
 	}
 
-	printf("%s\n", "ÄãºÃ");
+	if (RECV_SECOND_DATA) {
+		nTime = GetTickCount();
+		ret = recv(_socketFd, recData, 255, 0);
+		nTime = GetTickCount() - nTime;
+		printf("2 recv time=%dms\n", nTime);
+		printf("2 recv %d bytes:\n", ret);
+		if (ret > 0)
+		{
+			memcpy(out, recData, ret);
+			int ii = 0;
+			while (ii++ < ret)
+				printf("%x  ", (unsigned char)recData[ii - 1]);
 
+			printf("\n");
+		}
+	}
 	fclose(fpIn);
 	free(pInBuffer);
 
@@ -129,43 +118,35 @@ int NetworkTrans::sendPcmData(char *pcmData, int len, char *out)
 {
 	int nTime = GetTickCount();
 	_init();
-	nTime = GetTickCount() - nTime;
-	printf("init time=%dms\n", nTime);
+	printf("init time=%dms\n", GetTickCount() - nTime);
+	nTime = GetTickCount();
 	send(_socketFd, pcmData, len, 0);
-	nTime = GetTickCount() - nTime;
-	printf("send time=%dms\n", nTime);
+	printf("send time=%dms\n", GetTickCount() - nTime);
+
+	nTime = GetTickCount();
 	char recData[255];
 	memset(recData, 0, 255);
 	int ret = recv(_socketFd, recData, 255, 0);
-	if (1 == ret) {
-		printf("recv 1 byte %x\n", (unsigned char)recData[0]);
-	}
-	ret = recv(_socketFd, recData, 255, 0);
-	nTime = GetTickCount() - nTime;
-	//printf("recv time=%dms\n", nTime);
-	//printf("recv %d bytes:\n", ret);
-	//if (ret > 0)
-	//{
-	//	int ii = 0;
-	//	while (ii++ < ret)
-	//		printf("%x  ", (unsigned char)recData[ii - 1]);
-
-	//	printf("\n");
+	//if (1 == ret) {
+	//	printf("recv 1 byte %x\n", (unsigned char)recData[0]);
 	//}
-
 	ret = recv(_socketFd, recData, 255, 0);
-	nTime = GetTickCount() - nTime;
-	//printf("recv time=%dms\n", nTime);
-	//printf("recv %d bytes:\n", ret);
+	printf("1 recv time=%dms\n", GetTickCount() - nTime);
+	printf("1 recv %d bytes:\n", ret);
 	if (ret > 0)
 	{
 		memcpy(out, recData, ret);
-		//printf("%s\n", out);
-		//int ii = 0;
-		//while (ii++ < ret)
-		//	printf("%x  ", (unsigned char)recData[ii - 1]);
-		//
-		//printf("\n");
+	}
+
+	if (RECV_SECOND_DATA) {
+		nTime = GetTickCount();
+		ret = recv(_socketFd, recData, 255, 0);
+		printf("2 recv time=%dms\n", GetTickCount() - nTime);
+		printf("2 recv %d bytes:\n", ret);
+		if (ret > 0)
+		{
+			memcpy(out, recData, ret);
+		}
 	}
 	_close();
 	return 0;

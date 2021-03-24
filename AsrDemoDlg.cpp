@@ -33,7 +33,7 @@ AsrDemoDlg::AsrDemoDlg(CWnd* pParent /*=NULL*/)
 	ZeroMemory(&m_stWFEX,sizeof(WAVEFORMATEX));
 	ZeroMemory(m_stWHDR,MAX_BUFFERS*sizeof(WAVEHDR));
 
-	m_sendData = new NetworkTrans();
+	m_networkTrans = new NetworkTrans();
 	m_pInBuffer = (char *)malloc(MAX_PCM_BUFFER);
 	m_pOutBuffer = (char*)malloc(MAX_PCM_BUFFER);
 	m_count = 0;
@@ -41,8 +41,8 @@ AsrDemoDlg::AsrDemoDlg(CWnd* pParent /*=NULL*/)
 
 AsrDemoDlg::~AsrDemoDlg()
 {
-	delete m_sendData;
-	m_sendData = nullptr;
+	delete m_networkTrans;
+	m_networkTrans = nullptr;
 
 	free(m_pInBuffer);
 	m_pInBuffer = nullptr;
@@ -430,11 +430,12 @@ void AsrDemoDlg::OnBnClickedStartStop()
 		int nTime = GetTickCount();
 
 		char out[256] = {0};
-		m_sendData->sendPcmData(m_pInBuffer, m_count, out);
+		m_networkTrans->sendPcmData(m_pInBuffer, m_count, out);
+		nTime = GetTickCount() - nTime;
 		char out2[256] = { 0 };
 		ChineseConvertUtil::Utf8ToGB2312(out, out2);
 		DisplayAsrText(out2);
-		nTime = GetTickCount() - nTime;
+		
 		printf("NS time = %dms, AGC time = %dms, ASR time = %dms\n", nsTime, agcTime, nTime);
 		m_count = 0;
 	}
@@ -579,12 +580,12 @@ void AsrDemoDlg::OnEnChangeStatus()
 
 void AsrDemoDlg::OnBnClickedSendFile()
 {
-	char out[200] = { 0 };
-	char out2[200] = { 0 };
-	m_sendData->sendPcmData("D:\\work\\asr\\T0055G0002S0001.pcm", out);
-	FileUtil::WriteReadFileTest(out, out2);
+	char out[256] = { 0 };
+	char out2[256] = { 0 };
+	m_networkTrans->sendPcmData("D:\\work\\asr\\T0055G0002S0001.pcm", out);
+	//FileUtil::WriteReadFileTest(out, out2);
 	ChineseConvertUtil::Utf8ToGB2312(out, out2);
-	SetStatus(out2);
+	DisplayAsrText(out2);
 }
 
 

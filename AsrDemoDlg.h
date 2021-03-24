@@ -67,7 +67,7 @@ private:
 	MMCKINFO m_stckOut,m_stckOutRIFF; 
 
 	std::string m_saveFile;
-	ASR::NetworkTrans *m_sendData;
+	ASR::NetworkTrans *m_networkTrans;
 	char *m_pInBuffer;
 	char *m_pOutBuffer;
 	int m_count;

@@ -323,7 +323,7 @@ namespace WebRTCUtil {
 		_noiseSuppression32(filePath.c_str(), outNsPath.c_str(), 32000, 2);
 		_agc(outNsPath.c_str(), outAgcPath.c_str(), 8000);
 
-		printf("保存增益、降噪文件\n");
+		//printf("保存增益、降噪文件\n");
 
 	}
 

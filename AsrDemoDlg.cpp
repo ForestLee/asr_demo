@@ -554,35 +554,24 @@ VOID AsrDemoDlg::SetStatus(LPCTSTR lpszFormat, ...)
 
 void AsrDemoDlg::OnCbSelFormats()
 {
-	// TODO: �ڴ���ӿؼ�֪ͨ����������
+
 }
 
 
 void AsrDemoDlg::OnEnChangeFilename()
 {
-	// TODO:  ����ÿؼ��� RICHEDIT �ؼ���������
-	// ���ʹ�֪ͨ��������д CDialog::OnInitDialog()
-	// ���������� CRichEditCtrl().SetEventMask()��
-	// ͬʱ�� ENM_CHANGE ��־�������㵽�����С�
 
-	// TODO:  �ڴ���ӿؼ�֪ͨ����������
 }
 
 
 void AsrDemoDlg::OnEnChangeStatus()
 {
-	// TODO:  ����ÿؼ��� RICHEDIT �ؼ���������
-	// ���ʹ�֪ͨ��������д CDialog::OnInitDialog()
-	// ���������� CRichEditCtrl().SetEventMask()��
-	// ͬʱ�� ENM_CHANGE ��־�������㵽�����С�
 
-	// TODO:  �ڴ���ӿؼ�֪ͨ����������
 }
 
 
 void AsrDemoDlg::OnBnClickedSendFile()
 {
-	// TODO: �ڴ���ӿؼ�֪ͨ����������
 	char out[200] = { 0 };
 	m_sendData->sendPcmData("D:\\work\\asr\\T0055G0002S0001.pcm", out);
 	SetStatus(out);

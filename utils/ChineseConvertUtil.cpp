@@ -18,6 +18,7 @@ namespace ASR {
 		WideCharToMultiByte(CP_ACP, 0, wstr, -1, gb2312, len, NULL, NULL);
 		if (wstr) delete[] wstr;
 		return;
+
 	}
 
 	void ChineseConvertUtil::GB2312ToUtf8(const char* gb2312, char* utf8)

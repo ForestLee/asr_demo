@@ -110,6 +110,7 @@
     <PostBuildEvent>
       <Command>
       </Command>
+      <Message>editbin /SUBSYSTEM:CONSOLE $(OUTDIR)\$(ProjectName).exe</Message>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

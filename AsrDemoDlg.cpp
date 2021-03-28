@@ -435,7 +435,7 @@ void AsrDemoDlg::OnBnClickedStartStop()
 		char out2[256] = { 0 };
 		ChineseConvertUtil::Utf8ToGB2312(out, out2);
 		char outputStr[512] = {0};
-		sprintf(outputStr, "%s recvTime[%d]ms\n", out2, recvTime);
+		sprintf(outputStr, "%s \t\trecvTime[%d]ms\n", out2, recvTime);
 		DisplayAsrText(outputStr);
 		
 #ifdef DEBUG
@@ -590,7 +590,7 @@ void AsrDemoDlg::OnBnClickedSendFile()
 	//FileUtil::WriteReadFileTest(out, out2);
 	ChineseConvertUtil::Utf8ToGB2312(out, out2);
 	char outputStr[512] = { 0 };
-	sprintf(outputStr, "%s recvTime[%d]ms\n", out2, recvTime);
+	sprintf(outputStr, "%s \t\trecvTime[%d]ms\n", out2, recvTime);
 	DisplayAsrText(outputStr);
 }
 

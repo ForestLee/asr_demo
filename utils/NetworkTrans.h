@@ -22,6 +22,7 @@ namespace ASR {
 	private:
 		void _init();
 		void _close();
+		void dumpBuffer(char* buffer, int len);
 	};
 
 }

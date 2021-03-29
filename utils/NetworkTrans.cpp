@@ -4,7 +4,7 @@ namespace ASR {
 	
 #define RECV_SECOND_DATA   true
 
-//#define DEBUG  true
+#define DEBUG  true
 
 NetworkTrans::NetworkTrans() {
 
@@ -33,10 +33,10 @@ void NetworkTrans::_init() {
 
 	struct sockaddr_in serAddr;
 	serAddr.sin_family = AF_INET;
-	//serAddr.sin_port = htons(9995);
-	//serAddr.sin_addr.S_un.S_addr = inet_addr("124.71.179.241");
-	serAddr.sin_port = htons(5050);
-	serAddr.sin_addr.S_un.S_addr = inet_addr("10.43.16.31");
+	serAddr.sin_port = htons(9995);
+	serAddr.sin_addr.S_un.S_addr = inet_addr("124.71.179.241");
+	//serAddr.sin_port = htons(5050);
+	//serAddr.sin_addr.S_un.S_addr = inet_addr("10.43.16.31");
 	if (connect(_socketFd, (struct sockaddr*) & serAddr, sizeof(serAddr)) == SOCKET_ERROR)
 	{
 		printf("connect error !\n");

@@ -4,7 +4,7 @@ namespace ASR {
 	
 #define RECV_SECOND_DATA   true
 
-#define DEBUG  true
+//#define DEBUG  true
 
 NetworkTrans::NetworkTrans() {
 
